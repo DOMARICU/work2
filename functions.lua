@@ -1,6 +1,7 @@
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local freefalllsrc = workspace.LocalPlayer.Freefall
 local LocalPlayer = Players.LocalPlayer
 
 --SAVE SETTINGS:
@@ -28,6 +29,7 @@ function framework()
     if ex then
       if not Flying then
         Flying = true
+        freefalllsrc.Enabled = false
   
         if LocalPlayer.Character then
           for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
@@ -82,6 +84,7 @@ function framework()
       RunService:BindToRenderStep("Fly", Enum.RenderPriority.Character.Value, updateFly)
       else
         Flying = false
+        freefalllsrc.Enabled = true
   
         if FlyBodyGyro then FlyBodyGyro:Destroy() end
           if FlyBodyVelocity then FlyBodyVelocity:Destroy() end
