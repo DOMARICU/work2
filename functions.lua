@@ -1,7 +1,7 @@
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-local freefalllsrc = workspace.LocalPlayer.Freefall
+local freefalllsrc = workspace.LocalPlayer.Name.Freefall
 local LocalPlayer = Players.LocalPlayer
 
 --SAVE SETTINGS:
