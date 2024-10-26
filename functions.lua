@@ -438,7 +438,6 @@ local function teleportToLocation(locationName)
     -- Suche die Location in der Locations-Tabelle
     for _, location in ipairs(Locations) do
         if location.Name == locationName and location.Part then
-            -- Setze die Position des Spielers auf die Position des Ziel-Parts
             rootPart.CFrame = location.Part.CFrame
             print("Teleported to " .. location.Name)
             return
@@ -446,6 +445,20 @@ local function teleportToLocation(locationName)
     end
 
     print("Location not found or part is missing.")
+end
+
+local function printPlayerCoordinates(ex)
+    if ex then
+        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+
+    while true do
+        local position = rootPart.Position
+        Label1:Set("Coords: X=" .. position.X .. ", Y=" .. position.Y .. ", Z=" .. position.Z)
+        
+        wait(1)
+    end
+    end
 end
 
   init()
@@ -464,7 +477,8 @@ end
     updateHeadHitbox = updateHeadHitbox,
     monitorPlayers = monitorPlayers,
     updateLocationOptions = updateLocationOptions,
-    teleportToLocation = teleportToLocation
+    teleportToLocation = teleportToLocation,
+    printPlayerCoordinates = printPlayerCoordinates
   }
 
 end
