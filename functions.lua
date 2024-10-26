@@ -5,11 +5,15 @@ local SVSetting = {
 }
 
 local Locations = {
-    {Name = "Spawn Point", Position = Vector3.new(0, 10, 0)},
-    {Name = "Mountain Top", Position = Vector3.new(100, 200, 100)},
-    {Name = "Lake", Position = Vector3.new(-50, 5, 120)},
-    {Name = "Desert", Position = Vector3.new(300, 10, -200)}
-}
+    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
+    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
+    {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
+  }
+
+local Options = {}
+for _, location in ipairs(Locations) do
+    table.insert(Options, location.Name)
+end
 
 local supportedWeapons = {
   "AK47",
