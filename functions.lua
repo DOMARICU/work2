@@ -413,8 +413,8 @@ local function adjustht(size)
 end
 
 local Locations = {
-    {Name = "Spawn", Part = workspace:FindFirstChild("SpawnLocation")},
-    {Name = "Shop", Part = workspace:FindFirstChild("ShopEntrance")},
+    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
+    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
     {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
 }
 
