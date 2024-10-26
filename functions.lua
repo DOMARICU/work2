@@ -4,17 +4,6 @@ local SVSetting = {
   htbxdisabled = true
 }
 
-local Locations = {
-    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
-    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
-    {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
-  }
-
-local Options = {}
-for _, location in ipairs(Locations) do
-    table.insert(Options, location.Name)
-end
-
 local supportedWeapons = {
   "AK47",
   "M4A1",
@@ -29,7 +18,7 @@ local TeamCheckEnabled = false
 local ESPDistance = 100
 local ESPLines = {}
 local FlySpeed = 50
-local hitbox = 5
+local hitbox = 70
 
 ------------- STARTUP -------------
 local UserInputService = game:GetService("UserInputService")
