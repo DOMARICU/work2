@@ -452,8 +452,6 @@ end
     toggleuna = toggleuna,
     adjustht = adjustht,
     usebhbox = usebhbox,
-    updateHeadHitbox = updateHeadHitbox,
-    monitorPlayers = monitorPlayers,
     teleportToCoordinates = teleportToCoordinates
   }
 
