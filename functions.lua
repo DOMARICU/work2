@@ -5,6 +5,11 @@ local LocalPlayer = Players.LocalPlayer
 local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local freefalllsrc = character:WaitForChild("Freefall")
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ACS_Engine = ReplicatedStorage:WaitForChild("ACS_Engine")
+local Events = ACS_Engine:WaitForChild("Events")
+local FDMG = Events:WaitForChild("FDMG")
+
 --SAVE SETTINGS:
 local SVSetting = {
   maxflyspeed = 400,
@@ -129,11 +134,33 @@ function framework()
     end
   end
 
+  local function advanced(ex)
+    if ex then
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local ACS_Engine = ReplicatedStorage:WaitForChild("ACS_Engine")
+        local Events = ACS_Engine:WaitForChild("Events")
+    
+        local eventsToBlock = {"FDMG", "Freefall"}
+    
+        for _, eventName in ipairs(eventsToBlock) do
+            local event = Events:FindFirstChild(eventName)
+            if event then
+                local originalFireServer = event.FireServer
+                event.FireServer = function(self, ...)
+                    print("Blocked Remote Event:", eventName)
+                    return
+                end
+            end
+        end
+    end
+  end
+
   init()
   return {
     logger = logger,
     dekshdse = dekshdse,
-    adjustFlySpeed = adjustFlySpeed
+    adjustFlySpeed = adjustFlySpeed,
+    advanced = advanced
   }
 end
 
