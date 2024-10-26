@@ -9,7 +9,6 @@ local Locations = {
     {Name = "Mountain Top", Position = Vector3.new(100, 200, 100)},
     {Name = "Lake", Position = Vector3.new(-50, 5, 120)},
     {Name = "Desert", Position = Vector3.new(300, 10, -200)}
-    -- Weitere Locations können hier hinzugefügt werden
 }
 
 local supportedWeapons = {
@@ -17,10 +16,6 @@ local supportedWeapons = {
   "M4A1",
   "SniperRifle"
 }
-local Options = {}
-for _, location in ipairs(Locations) do
-    table.insert(Options, location.Name)
-end
 
 -- Definitionen:
 local Flying = false
