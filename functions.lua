@@ -1,8 +1,9 @@
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-local freefalllsrc = workspace.LocalPlayer.Name.Freefall
 local LocalPlayer = Players.LocalPlayer
+local workspacePlayer = workspace:WaitForChild(LocalPlayer.Name)
+local freefalllsrc = workspacePlayer:WaitForChild("Freefall")
 
 --SAVE SETTINGS:
 local SVSetting = {
