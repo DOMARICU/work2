@@ -4,6 +4,12 @@ local SVSetting = {
   htbxdisabled = true
 }
 
+local Locations = {
+    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
+    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
+    {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
+}
+
 local supportedWeapons = {
   "AK47",
   "M4A1",
@@ -411,12 +417,6 @@ local function adjustht(size)
       print("Hitboxgröße auf " .. size .. " eingestellt.")
   end
 end
-
-local Locations = {
-    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
-    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
-    {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
-}
 
 local function updateLocationOptions()
     Options = {}
