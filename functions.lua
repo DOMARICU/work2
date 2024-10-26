@@ -5,9 +5,11 @@ local SVSetting = {
 }
 
 local Locations = {
-    {Name = "CORE", Part = workspace.CoreSystem.BlastPoints.Core},
-    {Name = "MAIN TOWER TOP", Part = workspace.AllMainBuildings.ExteriorCheckpoint.StairTower.TopPlatform.Platform},
-    {Name = "Arena", Part = workspace:FindFirstChild("ArenaCenter")}
+    {Name = "Spawn Point", Position = Vector3.new(0, 10, 0)},
+    {Name = "Mountain Top", Position = Vector3.new(100, 200, 100)},
+    {Name = "Lake", Position = Vector3.new(-50, 5, 120)},
+    {Name = "Desert", Position = Vector3.new(300, 10, -200)}
+    -- Weitere Locations können hier hinzugefügt werden
 }
 
 local supportedWeapons = {
@@ -16,6 +18,9 @@ local supportedWeapons = {
   "SniperRifle"
 }
 local Options = {}
+for _, location in ipairs(Locations) do
+    table.insert(Options, location.Name)
+end
 
 -- Definitionen:
 local Flying = false
@@ -418,47 +423,21 @@ local function adjustht(size)
   end
 end
 
-local function updateLocationOptions()
-    Options = {}
-
-    for _, location in ipairs(Locations) do
-        if location.Part and location.Part:IsA("BasePart") then
-            table.insert(Options, location.Name)
-        end
-    end
-
-    LOCATIONS:Set(Options)
-end
-
-local function teleportToLocation(locationName)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
+local function teleportToCoordinates(locationName)
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
     local rootPart = character:WaitForChild("HumanoidRootPart")  -- Der Teil des Charakters, der für das Teleportieren verwendet wird
 
-    -- Suche die Location in der Locations-Tabelle
+    -- Suche die Location in der Locations-Tabelle anhand des Namens
     for _, location in ipairs(Locations) do
-        if location.Name == locationName and location.Part then
-            rootPart.CFrame = location.Part.CFrame
-            print("Teleported to " .. location.Name)
+        if location.Name == locationName then
+            -- Setze die Position des Spielers auf die definierte Position
+            rootPart.CFrame = CFrame.new(location.Position)
+            print("Teleported to " .. location.Name .. " at coordinates: " .. tostring(location.Position))
             return
         end
     end
 
-    print("Location not found or part is missing.")
-end
-
-local function printPlayerCoordinates(ex)
-    if ex then
-        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-        local rootPart = character:WaitForChild("HumanoidRootPart")
-
-    while true do
-        local position = rootPart.Position
-        Label1:Set("Coords: X=" .. position.X .. ", Y=" .. position.Y .. ", Z=" .. position.Z)
-        
-        wait(1)
-    end
-    end
+    print("Location not found.")
 end
 
   init()
@@ -476,9 +455,7 @@ end
     usebhbox = usebhbox,
     updateHeadHitbox = updateHeadHitbox,
     monitorPlayers = monitorPlayers,
-    updateLocationOptions = updateLocationOptions,
-    teleportToLocation = teleportToLocation,
-    printPlayerCoordinates = printPlayerCoordinates
+    teleportToCoordinates = teleportToCoordinates
   }
 
 end
