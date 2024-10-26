@@ -136,24 +136,41 @@ function framework()
 
   local function advanced(ex)
     if ex then
-        local ReplicatedStorage = game:GetService("ReplicatedStorage")
-        local ACS_Engine = ReplicatedStorage:WaitForChild("ACS_Engine")
-        local Events = ACS_Engine:WaitForChild("Events")
-    
-        local eventsToBlock = {"FDMG", "Freefall"}
-    
-        for _, eventName in ipairs(eventsToBlock) do
-            local event = Events:FindFirstChild(eventName)
-            if event then
-                local originalFireServer = event.FireServer
-                event.FireServer = function(self, ...)
-                    print("Blocked Remote Event:", eventName)
-                    return
-                end
-            end
-        end
-    end
+      local ReplicatedStorage = game:GetService("ReplicatedStorage")
+      local ACS_Engine = ReplicatedStorage:FindFirstChild("ACS_Engine")
+      
+      if not ACS_Engine then
+          warn("ACS_Engine nicht gefunden.")
+          return
+      end
+  
+      local Events = ACS_Engine:FindFirstChild("Events")
+      if not Events then
+          warn("Events nicht in ACS_Engine gefunden.")
+          return
+      end
+  
+      local FDMG = Events:FindFirstChild("FDMG")
+      if not FDMG then
+          warn("FDMG nicht in Events gefunden.")
+          return
+      end
+  
+      -- Überprüfe, ob FDMG ein RemoteEvent ist
+      if FDMG:IsA("RemoteEvent") then
+          -- Speichere die Originalfunktion
+          local originalFireServer = FDMG.FireServer
+  
+          -- Hook für das FDMG-Event, um ALLE FireServer-Aufrufe zu blockieren
+          FDMG.FireServer = function(self, ...)
+              print("Blocked Remote Event: FDMG")
+              return -- Blockiert das Event komplett und führt nichts weiter aus
+          end
+      else
+          warn("FDMG ist kein RemoteEvent.")
+      end
   end
+end
 
   init()
   return {
