@@ -1,136 +1,145 @@
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local framework = loadstring(game:HttpGet('https://raw.githubusercontent.com/DOMARICU/work2/refs/heads/main/functions.lua'))()
 
---SAVE SETTINGS:
 local SVSetting = {
   maxflyspeed = 400,
-  maxhitboxsize = 50,
-  htbxdisabled = true
+  maxhitboxsize = 50
 }
 
---VAR
-local Flying = false
-local FlyBodyGyro, FlyBodyVelocity
-local FlySpeed = 50
+local ESPDistance = 100
 
-function framework()
-  local function init()
-    print("Injected!🚀")
-  end
+local fr = framework
 
-  local function logger(value)
-    print(value)
-  end
-
-  local function dekshdse(ex)
-    if ex then
-      if not Flying then
-        Flying = true
-  
-        if LocalPlayer.Character then
-          for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-              if part:IsA("BasePart") and part.CanCollide then
-                  part.CanCollide = false
-              end
-          end
-      end
-  
-      FlyBodyGyro = Instance.new("BodyGyro")
-      FlyBodyGyro.P = 9e4
-      FlyBodyGyro.MaxTorque = Vector3.new(9e4, 9e4, 9e4)
-      FlyBodyGyro.CFrame = workspace.CurrentCamera.CFrame
-      FlyBodyGyro.Parent = LocalPlayer.Character.HumanoidRootPart
-  
-      FlyBodyVelocity = Instance.new("BodyVelocity")
-      FlyBodyVelocity.Velocity = Vector3.zero
-      FlyBodyVelocity.MaxForce = Vector3.new(9e4, 9e4, 9e4)
-      FlyBodyVelocity.Parent = LocalPlayer.Character.HumanoidRootPart
-  
-      local function updateFly()
-          if not Flying then return end
-  
-          local cam = workspace.CurrentCamera
-          local direction = Vector3.zero
-  
-          if UserInputService:IsKeyDown(Enum.KeyCode.W) then
-              direction = direction + cam.CFrame.LookVector
-          end
-          if UserInputService:IsKeyDown(Enum.KeyCode.S) then
-              direction = direction - cam.CFrame.LookVector
-          end
-          if UserInputService:IsKeyDown(Enum.KeyCode.A) then
-              direction = direction - cam.CFrame.RightVector
-          end
-          if UserInputService:IsKeyDown(Enum.KeyCode.D) then
-              direction = direction + cam.CFrame.RightVector
-          end
-  
-          FlyBodyVelocity.Velocity = direction * FlySpeed
-          FlyBodyGyro.CFrame = cam.CFrame
-  
-          if LocalPlayer.Character then
-              for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-                  if part:IsA("BasePart") and part.CanCollide then
-                      part.CanCollide = false
-                  end
-              end
-          end
-      end
-  
-      RunService:BindToRenderStep("Fly", Enum.RenderPriority.Character.Value, updateFly)
-      else
-        Flying = false
-  
-        if FlyBodyGyro then FlyBodyGyro:Destroy() end
-          if FlyBodyVelocity then FlyBodyVelocity:Destroy() end
-  
-          if LocalPlayer.Character then
-              for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-                  if part:IsA("BasePart") then
-                      part.CanCollide = true
-                  end
-              end
-          end
-  
-          RunService:UnbindFromRenderStep("Fly")
-      end
+local function startup()
+  if Rayfield then
     else
-      if Flying then
-        Flying = false
-  
-        if FlyBodyGyro then FlyBodyGyro:Destroy() end
-        if FlyBodyVelocity then FlyBodyVelocity:Destroy() end
-  
-        if LocalPlayer.Character then
-          for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-            if part:IsA("BasePart") then
-              part.CanCollide = true
-            end
-          end
-        end
-  
-        RunService:UnbindFromRenderStep("Fly")
-      end
-    end
+      print("Error! Rayfield UI not found!")
   end
-
-  local function adjustFlySpeed(ox)
-    local inputSpeed = tonumber(ox)
-    if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
-        FlySpeed = inputSpeed
-    else
-        print("ERROR! A higher Value Detected!", FlySpeed)
-    end
-  end
-
-  init()
-  return {
-    logger = logger,
-    dekshdse = dekshdse,
-    adjustFlySpeed = adjustFlySpeed
-  }
+  if framework then
+  else
+    print("Error! Main Script not found!")
+end
 end
 
-return framework()
+  local Window = Rayfield:CreateWindow({
+    Name = "WAR TYCOON",
+    LoadingTitle = "DarkPulse",
+    LoadingSubtitle = "by --!!--",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = "warytcoon",
+       FileName = "Settings"
+    },
+    Discord = {
+       Enabled = false,
+       Invite = "noinvitelink",
+       RememberJoins = true
+    },
+    KeySystem = false,
+    KeySettings = {
+       Title = "Untitled",
+       Subtitle = "Key System",
+       Note = "No method of obtaining the key is provided",
+       FileName = "Key",
+       SaveKey = true,
+       GrabKeyFromSite = false,
+       Key = {"Hello"} 
+    }
+  })
+  
+  local MAIN = Window:CreateTab("MAIN", 4483362458) -- Titel, Bild
+  local VISUALS = Window:CreateTab("VISUALS", 4483362458)
+  local OTHERS = Window:CreateTab("OTHERS", 4483362458)
+  local Section = MAIN:CreateSection("Made by Furabyte")
+  
+  local Flytogglesw = MAIN:CreateToggle({
+    Name = "FLY",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(value)
+      fr.dekshdse(value)
+    end,
+  })
+  
+  local flyspeed = MAIN:CreateSlider({
+    Name = "FLY SPEED",
+    Range = {50, SVSetting.maxflyspeed},
+    Increment = 10,
+    Suffix = "",
+    CurrentValue = 50,
+    Flag = "Slider1",
+    Callback = function(Value)
+      fr.adjustFlySpeed(Value)
+    end,
+  })
+
+  local ESPBOX = VISUALS:CreateToggle({
+    Name = "ESP BOX",
+    CurrentValue = false,
+    Flag = "Toggle2",
+    Callback = function(Value)
+      fr.logger(Value)
+    end,
+  })
+  
+  local Toggle = VISUALS:CreateToggle({
+    Name = "ESP LINES",
+    CurrentValue = false,
+    Flag = "Toggle3",
+    Callback = function(Value)
+      fr.logger(Value) 
+    end,
+  })
+  
+  local DistanceSlider = VISUALS:CreateSlider({
+    Name = "ESP Distance",
+    Range = {50, 500},
+    Increment = 10,
+    Suffix = " studs",
+    CurrentValue = ESPDistance,
+    Flag = "DistanceSlider",
+    Callback = function(Value)
+      ESPDistance = Value
+    end,
+  })
+  
+  local TeamCheckToggle = VISUALS:CreateToggle({
+    Name = "Team Check",
+    CurrentValue = false,
+    Flag = "Toggle4",
+    Callback = function(Value)
+      TeamCheckEnabled = Value
+    end,
+  })
+
+  local UNA = OTHERS:CreateToggle({
+    Name = "UNLIMITED AMMO",
+    CurrentValue = false,
+    Flag = "Toggle5",
+    Callback = function(Value)
+      fr.logger(Value)
+    end,
+  })
+
+  local htbch = OTHERS:CreateToggle({
+    Name = "Use Hitboxchanger",
+    CurrentValue = false,
+    Flag = "Toogle6",
+    Callback = function(Value)
+      fr.logger(Value)
+    end,
+  })
+
+  local htbxvlue = OTHERS:CreateSlider({
+    Name = "HITBOX SIZE",
+    Range = {5, SVSetting.maxhitboxsize},
+    Increment = 5,
+    Suffix = "",
+    CurrentValue = 5,
+    Flag = "hitbxslider",
+    Callback = function(Value)
+      fr.logger(Value)
+    end,
+  })
+
+startup()
