@@ -422,23 +422,6 @@ local function adjustht(size)
   end
 end
 
-local function teleportToCoordinates(locationName)
-    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    local rootPart = character:WaitForChild("HumanoidRootPart")  -- Der Teil des Charakters, der für das Teleportieren verwendet wird
-
-    -- Suche die Location in der Locations-Tabelle anhand des Namens
-    for _, location in ipairs(Locations) do
-        if location.Name == locationName then
-            -- Setze die Position des Spielers auf die definierte Position
-            rootPart.CFrame = CFrame.new(location.Position)
-            print("Teleported to " .. location.Name .. " at coordinates: " .. tostring(location.Position))
-            return
-        end
-    end
-
-    print("Location not found.")
-end
-
   init()
   return {
     dekshdse = dekshdse,
@@ -451,8 +434,7 @@ end
     toggleESPLines = toggleESPLines,
     toggleuna = toggleuna,
     adjustht = adjustht,
-    usebhbox = usebhbox,
-    teleportToCoordinates = teleportToCoordinates
+    usebhbox = usebhbox
   }
 
 end
